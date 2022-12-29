@@ -18,6 +18,17 @@ spec:
     spec:
       hostname: psuite
       serviceAccountName: psuite
+      initContainers:
+      - name: init-syncthing
+        image: rclone/rclone:1.61
+        command: ['sh', '/scripts/init-syncthing-config.sh']
+        volumeMounts:
+        - name: init-scripts
+          mountPath: /scripts/
+        - name: data
+          mountPath: /data
+        - name: config
+          mountPath: /config
       containers:
       - name: psuite
         image: linuxserver/syncthing:1.22.2
@@ -25,8 +36,14 @@ spec:
         - name: data
           mountPath: /data
         - name: config
-          mountPath: /var/syncthing/config
+          mountPath: /config
       volumes:
+      - name: init-scripts
+        configMap:
+          name: init-scripts
+          items:
+          - key: init-syncthing-config.sh
+            path: init-syncthing-config.sh
       - name: data
         persistentVolumeClaim:
           claimName: psuite-data
