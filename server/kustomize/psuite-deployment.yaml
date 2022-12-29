@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psuite
+  labels:
+    app: psuite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: psuite
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: psuite
+    spec:
+      hostname: psuite
+      serviceAccountName: psuite
+      containers:
+      - name: psuite
+        image: syncthing/syncthing:0.1.0
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: config
+          mountPath: /var/syncthing/config
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: psuite-data
+      - name: config
+        persistentVolumeClaim:
+          claimName: psuite-config

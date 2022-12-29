@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: psuite
+  labels:
+    app: psuite
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8384
+    targetPort: 8384
+    protocol: TCP
+    name: gui
+  - port: 22000
+    targetPort: 22000
+    protocol: TCP
+    name: file-transfer
+  - port: 22000
+    targetPort: 22000
+    protocol: UDP
+    name: file-transfer-quic
+  - port: 21027
+    targetPort: 21027
+    protocol: UDP
+    name: discovery
+  selector:
+    app: psuite

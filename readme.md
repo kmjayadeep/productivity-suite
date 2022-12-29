@@ -18,3 +18,10 @@ The idea is to have a client/server architecture along with a script, where
   * setup scripts to access notes, mindmap and todo from cli
   * enable offline editing
 
+
+## Server setup
+
+```
+cd server/kustomize
+kubectl apply -k .
+```
