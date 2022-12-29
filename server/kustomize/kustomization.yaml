@@ -16,3 +16,8 @@ configMapGenerator:
   files:
   - init-syncthing.sh
   - backup.sh
+
+secretGenerator:
+- name: psuite-restic-creds
+  envs:
+  - .env
