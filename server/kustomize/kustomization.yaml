@@ -12,6 +12,7 @@ resources:
 
 
 configMapGenerator:
-- name: init-scripts
+- name: psuite-scripts
   files:
-  - init-syncthing-config.sh
+  - init-syncthing.sh
+  - backup.sh

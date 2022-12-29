@@ -20,10 +20,10 @@ spec:
       serviceAccountName: psuite
       initContainers:
       - name: init-syncthing
-        image: rclone/rclone:1.61
-        command: ['sh', '/scripts/init-syncthing-config.sh']
+        image: restic/restic:0.14.0
+        command: ['sh', '/scripts/init-syncthing.sh']
         volumeMounts:
-        - name: init-scripts
+        - name: scripts
           mountPath: /scripts/
         - name: data
           mountPath: /data
@@ -37,13 +37,20 @@ spec:
           mountPath: /data
         - name: config
           mountPath: /config
+      - name: backup
+        image: restic/restic:0.14.0
+        command: ['sh', '/scripts/backup.sh']
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: config
+          mountPath: /config
+        - name: scripts
+          mountPath: /scripts/
       volumes:
-      - name: init-scripts
+      - name: scripts
         configMap:
-          name: init-scripts
-          items:
-          - key: init-syncthing-config.sh
-            path: init-syncthing-config.sh
+          name: psuite-scripts
       - name: data
         persistentVolumeClaim:
           claimName: psuite-data
