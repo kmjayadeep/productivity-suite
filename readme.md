@@ -21,7 +21,9 @@ The idea is to have a client/server architecture along with a script, where
 
 ## Server setup
 
+fill restic creds in `server/kustomize/overlay-env/.env` as per `env.sample`
+
 ```
-cd server/kustomize
+cd server/kustomize/overlay-env
 kubectl apply -k .
 ```
