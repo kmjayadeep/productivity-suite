@@ -21,14 +21,17 @@ spec:
       initContainers:
       - name: init-syncthing
         image: restic/restic:0.14.0
+        envFrom:
+        - secretRef:
+            name: psuite-restic-creds
         command: ['sh', '/scripts/init-syncthing.sh']
         volumeMounts:
         - name: scripts
           mountPath: /scripts/
         - name: data
-          mountPath: /data
+          mountPath: /syncthing/data
         - name: config
-          mountPath: /config
+          mountPath: /syncthing/config
       containers:
       - name: psuite
         image: linuxserver/syncthing:1.22.2
