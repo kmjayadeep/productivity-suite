@@ -40,6 +40,18 @@ spec:
           mountPath: /data
         - name: config
           mountPath: /config
+        livenessProbe:
+          httpGet:
+            path: /rest/noauth/health
+            port: 8384
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /rest/noauth/health
+            port: 8384
+          initialDelaySeconds: 5
+          periodSeconds: 10
       - name: backup
         image: restic/restic:0.14.0
         command: ['sh', '/scripts/backup.sh']
