@@ -72,6 +72,9 @@ else
   echo "Folders added in syncthing"
 fi
 
+cp ./mm $SCRIPT_DIR
+cp ./notes $SCRIPT_DIR
+
 echo "
 To complete the process,
 
