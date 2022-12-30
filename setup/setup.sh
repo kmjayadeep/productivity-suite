@@ -4,7 +4,6 @@
 # prereqs: bash, syncthing, jq, curl
 # syncthing api token to be provided as SYNCTHING_API_TOKEN env variable
 
-shopt -s direxpand
 set -e
 
 SCRIPT_DIR=$HOME/scripts

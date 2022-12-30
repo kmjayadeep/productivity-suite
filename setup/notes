@@ -16,7 +16,7 @@ usage() {
 }
 
 getFile() {
-  file=$(find "$PSUITE_NOTES_DIR" -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview "bat --style numbers,changes --color always $PSUITE_NOTES_DIR/{}")
+  file=$(find "$PSUITE_NOTES_DIR" -type f -name "*.md" -not -path '*/.git/*' | sed -e "s>^$PSUITE_NOTES_DIR/>>" | fzf --preview "bat --style numbers,changes --color always $PSUITE_NOTES_DIR/{}")
   echo "$file"
 }
 
