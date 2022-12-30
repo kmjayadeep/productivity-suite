@@ -1,0 +1,88 @@
+#!/bin/bash
+
+if [ -z "$PSUITE_NOTES_DIR" ]; then
+  echo "PSUITE_NOTES_DIR not defined as environment variable"
+  exit 1
+fi
+
+usage() {
+  echo "notes : Take notes in markdown
+
+  notes                   # Fuzzy finder to select a note and edit it in $EDITOR
+  notes open              # Fuzzy finder to select a note and open in browser
+  notes list              # List notes as a tree
+  notes preview           # Preview note in bat
+  notes commit mycommit   # Commit notes to git with message mycommit"
+}
+
+getFile() {
+  file=$(find "$PSUITE_NOTES_DIR" -type f -name "*.md" -not -path '*/.git/*' | cut -sd / -f 6- | fzf --preview "bat --style numbers,changes --color always $PSUITE_NOTES_DIR/{}")
+  echo "$file"
+}
+
+open() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  $BROWSER "$PSUITE_NOTES_DIR/$file"
+}
+
+preview() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+  which bat &> /dev/null
+  if [ $? == 0 ];then
+    bat -p $PSUITE_NOTES_DIR/$file
+  else
+    cat p $PSUITE_NOTES_DIR/$file
+  fi
+}
+
+list() {
+  tree $PSUITE_NOTES_DIR
+}
+
+edit() {
+  file=$(getFile)
+  if [[ -z $file ]]
+  then
+    echo "No file specified"
+    exit 1
+  fi
+
+  cd $PSUITE_NOTES_DIR; $EDITOR $file
+}
+
+if [ "$#" == "0" ]; then
+  edit
+	exit 1
+fi
+
+cmd=$1
+shift
+
+case $cmd in 
+   edit)
+     edit
+;;
+   list)
+     list
+;;
+   open)
+     open
+;;
+   preview)
+     preview
+;;
+   *)
+     usage
+     exit 1
+;;
+esac
