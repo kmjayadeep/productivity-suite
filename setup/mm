@@ -15,8 +15,7 @@ usage() {
   mm                     # Fuzzy finder to select an entry and edit in $EDITOR
   mm add <title>         # Create a new entry and open it in editor
   mm list                # List existing entries using fzf
-  mm open                # open an entry in chrome
-  mm push                # Commit and push to git"
+  mm open                # open an entry in chrome"
 }
 
 x_isosec() { date -u "+%Y%m%b/%d%a-%H%M%S"; }
