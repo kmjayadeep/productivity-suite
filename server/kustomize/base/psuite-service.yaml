@@ -11,6 +11,18 @@ spec:
     targetPort: 8384
     protocol: TCP
     name: gui
+  selector:
+    app: psuite
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: psuite-sync
+  labels:
+    app: psuite
+spec:
+  type: LoadBalancer
+  ports:
   - port: 22000
     targetPort: 22000
     protocol: TCP
@@ -19,6 +31,22 @@ spec:
     targetPort: 22000
     protocol: UDP
     name: file-transfer-quic
+  - port: 21027
+    targetPort: 21027
+    protocol: UDP
+    name: discovery
+  selector:
+    app: psuite
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: psuite-discovery
+  labels:
+    app: psuite
+spec:
+  type: LoadBalancer
+  ports:
   - port: 21027
     targetPort: 21027
     protocol: UDP
