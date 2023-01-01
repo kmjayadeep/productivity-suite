@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: psuite-sync
+  name: psuite-sync-tcp
   labels:
     app: psuite
 spec:
@@ -27,14 +27,22 @@ spec:
     targetPort: 22000
     protocol: TCP
     name: file-transfer
+  selector:
+    app: psuite
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: psuite-sync-udp
+  labels:
+    app: psuite
+spec:
+  type: LoadBalancer
+  ports:
   - port: 22000
     targetPort: 22000
     protocol: UDP
     name: file-transfer-quic
-  - port: 21027
-    targetPort: 21027
-    protocol: UDP
-    name: discovery
   selector:
     app: psuite
 ---
